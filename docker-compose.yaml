@@ -1,0 +1,17 @@
+version: '3.7'
+
+services:
+  api:
+    build: .
+    restart: always
+    volumes:
+      - ./app:/app/app
+    ports:
+      - "8000:8000/tcp"
+    env_file:
+      - .env
+    networks:
+      - urlshortner
+
+networks:
+  urlshortner : {}
