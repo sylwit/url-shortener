@@ -1,4 +1,4 @@
-version: '3.7'
+version: '3.8'
 
 services:
   api:
@@ -7,9 +7,41 @@ services:
     volumes:
       - ./app:/app/app
     ports:
-      - "8000:8000/tcp"
+      - "5000:5000/tcp"
     env_file:
       - .env
+    depends_on:
+      - db
+    networks:
+      - urlshortner
+
+  db:
+    image: amazon/dynamodb-local
+    command: "-jar DynamoDBLocal.jar -sharedDb -dbPath ./data"
+    ports:
+      - "8000:8000/tcp"
+    restart: always
+    volumes:
+      - "./db_data:/home/dynamodblocal/data"
+    working_dir: /home/dynamodblocal
+    networks:
+      - urlshortner
+
+  dbadmin:
+    image: aaronshaf/dynamodb-admin
+    ports:
+      - "8001:8001/tcp"
+    environment:
+      DYNAMO_ENDPOINT: http://db:8000
+    depends_on:
+      - db
+    networks:
+      - urlshortner
+
+  dynamodump:
+    image: bchew/dynamodump
+    volumes:
+      - ./db:/dump
     networks:
       - urlshortner
 

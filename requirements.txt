@@ -1,3 +1,5 @@
 #api
 fastapi==0.72.0
 uvicorn==0.17.0
+pynamodb==5.2.0
+pydantic==1.9.0
