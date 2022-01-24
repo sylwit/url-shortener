@@ -38,12 +38,5 @@ services:
     networks:
       - urlshortner
 
-  dynamodump:
-    image: bchew/dynamodump
-    volumes:
-      - ./db:/dump
-    networks:
-      - urlshortner
-
 networks:
   urlshortner : {}
